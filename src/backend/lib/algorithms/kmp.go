@@ -47,4 +47,3 @@ func KMP(text, pattern string) []int {
 	fmt.Println(foundList)
 	return foundList
 }
-

@@ -3,7 +3,7 @@ package algorithms
 // Boyer-Moore string matching algorithm.
 // Returns a boolean depending if a pattern exists in the given text.
 // Only searchest the first occurence.
-func Boyer_Moore(text, pattern string) bool {
+func BoyerMoore(text, pattern string) bool {
 	// initiate return var
 	var found bool = false
 	// initiate text read anchor head (text anchor index)

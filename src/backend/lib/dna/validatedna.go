@@ -1,11 +1,11 @@
-package lib
+package dna
 
 import (
 	"fmt"
 	"regexp"
 )
 
-func validate_dna(input string) bool {
+func ValidateDNA(input string) bool {
 	regex, err := regexp.Compile(`[^ACGT]`)
 
 	if err != nil {
@@ -15,5 +15,4 @@ func validate_dna(input string) bool {
 		res := regex.FindString(input)
 		return res == ""
 	}
-
 }

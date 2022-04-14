@@ -1,15 +1,32 @@
 package main
 
 import (
+	"backend/db"
+	v1 "backend/routes/v1"
+	"log"
+
+	"github.com/joho/godotenv"
+
 	"github.com/gin-gonic/gin"
 )
 
+func init() {
+	if err := godotenv.Load(); err != nil {
+		log.Printf("No .env file found")
+	}
+}
+
 func main() {
-	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
-	r.Run()
+	// gin router
+	router := gin.Default()
+
+	// connect to database
+	db.Connect()
+
+	v1Group := router.Group("/api/v1")
+	{
+		v1.AddDiseaseRoute(v1Group)
+	}
+
+	router.Run()
 }
