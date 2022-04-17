@@ -26,6 +26,7 @@ func main() {
 	v1Group := router.Group("/api/v1")
 	{
 		v1.AddDiseaseRoute(v1Group)
+		v1.PredictPatience(v1Group)
 	}
 
 	router.Run()

@@ -11,7 +11,7 @@ type Disease struct {
 type Result struct {
 	ID          primitive.ObjectID `bson:"_id,omitempty"`
 	Date        primitive.DateTime `bson:"date,omitempty"`
-	PatientName string             `bson:"name,omitempty"`
-	Disease     string             `bson:"disease,omitempty"`
-	status      bool               `bson:"status,omitempty"`
+	PatientName string             `bson:"patientName,omitempty"`
+	DiseaseName string             `bson:"diseaseName,omitempty"`
+	HasDisease  bool               `bson:"hasDisease,omitempty"`
 }

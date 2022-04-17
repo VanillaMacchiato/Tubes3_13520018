@@ -1,10 +1,6 @@
 package algorithms
 
-import "fmt"
-
 func KMP(text, pattern string) []int {
-	fmt.Printf("text: %v\n", text)
-	fmt.Printf("pattern: %v\n", pattern)
 
 	// border function
 	patternLength := len(pattern)
@@ -32,7 +28,6 @@ func KMP(text, pattern string) []int {
 		}
 
 		if j == patternLength {
-			fmt.Printf("Found at index %d\n", i-j)
 			foundList = append(foundList, i-j)
 			j = b[j-1]
 		} else if i < textLength && text[i] != pattern[j] {
@@ -44,6 +39,5 @@ func KMP(text, pattern string) []int {
 		}
 	}
 
-	fmt.Println(foundList)
 	return foundList
 }

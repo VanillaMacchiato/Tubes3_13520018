@@ -29,6 +29,12 @@ func AddDiseaseController() gin.HandlerFunc {
 		// read text file
 		file, _, err := c.Request.FormFile("file")
 		diseaseName := c.Request.FormValue("disease-name")
+
+		if err != nil {
+			// error on receiving file
+			c.JSON(http.StatusBadRequest, gin.H{"status": status.Error, "code": statuscodes.FileError, "message": statuscodes.Text(statuscodes.FileError)})
+			return
+		}
 		defer file.Close()
 
 		// Check disease name
@@ -36,7 +42,8 @@ func AddDiseaseController() gin.HandlerFunc {
 			c.JSON(http.StatusBadRequest, gin.H{"status": status.Error, "code": statuscodes.DiseaseEmpty, "message": statuscodes.Text(statuscodes.DiseaseEmpty)})
 			return
 		}
-		var result models.Result
+
+		var result models.Disease
 		err = diseasesCollection.FindOne(ctx, bson.M{"name": diseaseName}).Decode(&result)
 		// Disease name already exists
 		if err == nil {
