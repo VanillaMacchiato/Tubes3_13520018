@@ -7,7 +7,6 @@ Menjalankan backend pada local:
 3. Buat file `.env` yang di-copy dari `.env.sample`, isi DATABASE_URL dan lain-lain
 4. Jalankan `go run main.go` pada CLI
 
-
 # API Endpoint
 
 ## Menambahkan Penyakit pada Database
@@ -19,20 +18,18 @@ Menjalankan backend pada local:
 Request dengan multipart/form-data berisi dua pair key-value sebagai berikut
 
 | Key          | Value                    |
-| -----------  | -----------              |
+| ------------ | ------------------------ |
 | file         | [isi dengan file]        |
 | disease-name | isi dengan nama penyakit |
 
-
 Contoh:
 
-| Key          | Value       |
-| -----------  | ----------- |
-| file         | dna.txt     |
-| disease-name | LIGMA       |
+| Key          | Value   |
+| ------------ | ------- |
+| file         | dna.txt |
+| disease-name | LIGMA   |
 
 File yang diunggah melalui multipart form-data pada key `file` ini berisi raw text DNA. Jika mengandung karakter yang tidak diinginkan (bukan ACGT), penambahan ke database ditolak.
-
 
 ## Melakukan Prediksi pada Pasien
 
@@ -40,12 +37,12 @@ File yang diunggah melalui multipart form-data pada key `file` ini berisi raw te
 
 `POST /api/v1/predict-patience`
 
-Request dengan multipart/form-data berisi dua pair key-value sebagai berikut
+Request dengan multipart/form-data berisi tiga pair key-value sebagai berikut
 
-| Key          | Value                             |
-| -----------  | -----------                       |
-| file         | [isi dengan file]                 |
-| name         | isi dengan nama pasien            |
-| disease      | isi dengan prediksi nama penyakit |
+| Key     | Value                             |
+| ------- | --------------------------------- |
+| file    | [isi dengan file]                 |
+| name    | isi dengan nama pasien            |
+| disease | isi dengan prediksi nama penyakit |
 
 File yang diunggah melalui multipart form-data pada key `file` ini berisi raw text DNA. Jika mengandung karakter yang tidak diinginkan (bukan ACGT), penambahan ke database ditolak.
