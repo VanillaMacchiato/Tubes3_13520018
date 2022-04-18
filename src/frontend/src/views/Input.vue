@@ -28,7 +28,7 @@
         />
       </div>
       <div class="namefile">{{ namafile }}</div>
-      <button @click="berhasil = true" class="submitbtn">
+      <button @click="onSubmit" class="submitbtn">
         <i class="fa fa-paper-plane"></i>
         Submit
       </button>
@@ -55,6 +55,25 @@ export default {
       var fileData = event.target.files[0]
       this.namafile = fileData.name
       this.textfile = fileData
+    },
+    onSubmit() {
+      let formData = new FormData()
+      formData.append('disease-name', this.nama)
+      formData.append('file', this.textfile)
+
+      fetch('http://localhost:8080/api/v1/add-disease', {
+        method: 'POST',
+        body: formData
+      })
+        .then((res) => {
+          return res.json()
+        })
+        .then((data) => {
+          console.log(data)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   }
 }

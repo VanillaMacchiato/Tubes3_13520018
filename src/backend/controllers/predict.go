@@ -11,6 +11,7 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -24,6 +25,8 @@ var resultsCollection *mongo.Collection = db.GetCollection(db.DB, db.COLLECTION_
 
 func PredictPatientController() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", os.Getenv("FE_URL"))
+
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
@@ -73,7 +76,7 @@ func PredictPatientController() gin.HandlerFunc {
 		matches := algorithms.KMP(buf.String(), diseaseDetail.DNA)
 		found := false
 		if len(matches) > 0 {
-			found = true
+			found = false
 		}
 
 		// Add new result
@@ -84,7 +87,7 @@ func PredictPatientController() gin.HandlerFunc {
 			DiseaseName: diseasePrediction,
 			HasDisease:  found,
 		}
-		
+
 		// Add result to DB
 		_, err = resultsCollection.InsertOne(ctx, newResult)
 
@@ -101,7 +104,7 @@ func PredictPatientController() gin.HandlerFunc {
 				"patientName": newResult.PatientName,
 				"diseaseName": newResult.DiseaseName,
 				"hasDisease":  newResult.HasDisease,
-		}})
+			}})
 
 	}
 

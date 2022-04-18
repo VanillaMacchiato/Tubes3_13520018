@@ -10,6 +10,7 @@ import (
 	"context"
 	"io"
 	"net/http"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -23,6 +24,8 @@ var diseasesCollection *mongo.Collection = db.GetCollection(db.DB, db.COLLECTION
 
 func AddDiseaseController() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", os.Getenv("FE_URL"))
+
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 

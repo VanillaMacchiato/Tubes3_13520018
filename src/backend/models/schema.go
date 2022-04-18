@@ -13,5 +13,5 @@ type Result struct {
 	Date        primitive.DateTime `bson:"date,omitempty"`
 	PatientName string             `bson:"patientName,omitempty"`
 	DiseaseName string             `bson:"diseaseName,omitempty"`
-	HasDisease  bool               `bson:"hasDisease,omitempty"`
+	HasDisease  bool               `bson:"hasDisease"`
 }

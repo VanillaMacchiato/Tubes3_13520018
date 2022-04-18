@@ -38,7 +38,7 @@
         </div>
       </div>
       <div class="namafile">{{ namafile }}</div>
-      <button @click="berhasil = true" class="submitbtn">
+      <button @click="onSubmit" class="submitbtn">
         <i class="fa fa-paper-plane"></i>
         Submit
       </button>
@@ -65,7 +65,7 @@ export default {
       namapengguna: '',
       textfile: '',
       textberhasil: 'Proses Selesai!',
-      berhasil: false,
+      berhasil: true,
       hasil: ''
     }
   },
@@ -74,6 +74,26 @@ export default {
       var fileData = event.target.files[0]
       this.name = fileData.name
       this.textfile = fileData
+    },
+    onSubmit() {
+      let formData = new FormData()
+      formData.append('file', this.textfile)
+      formData.append('name', this.namapengguna)
+      formData.append('disease', this.namapenyakit)
+
+      fetch('http://localhost:8080/api/v1/predict-patience', {
+        method: 'POST',
+        body: formData
+      })
+        .then((res) => {
+          return res.json()
+        })
+        .then((data) => {
+          console.log(data)
+        })
+        .catch((e) => {
+          console.log(e)
+        })
     }
   }
 }
