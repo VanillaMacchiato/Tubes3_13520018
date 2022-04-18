@@ -16,7 +16,6 @@ export default {
 </template>
 
 <style>
-
 body {
   background-image: url('./assets/background.png');
   background-repeat: no-repeat;

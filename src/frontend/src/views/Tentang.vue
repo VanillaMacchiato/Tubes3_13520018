@@ -3,33 +3,28 @@
     <img alt="text mengenai aplikasi" src="../assets/mengenai_aplikasi.png" />
     <h1>Halaman ini berisi informasi sangat penting dalam aplikasi ini</h1>
     <div class="kotak">
-    <div class="card">
-    <p id="p0">
-      Aplikasi ini dibuat oleh:
-    </p>
-    <p id="p1">1. Bariza Haqi 13520018</p>
-    <p id="p2">2. Farrel Farandieka Fibriyanto 13520054</p>
-    <p id="p3">3. Vito Ghifari 13520153</p>
-    </div>
+      <div class="card">
+        <p id="p0">Aplikasi ini dibuat oleh:</p>
+        <p id="p1">1. Bariza Haqi 13520018</p>
+        <p id="p2">2. Farrel Farandieka Fibriyanto 13520054</p>
+        <p id="p3">3. Vito Ghifari 13520153</p>
+      </div>
     </div>
     <div class="akhir">
-    <h2>Sudah sih gitu aja</h2>
-    <h2> Ehe</h2>
+      <h2>Sudah sih gitu aja</h2>
+      <h2>Ehe</h2>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'Tentang',
-  components: {
-  }
+  components: {}
 }
 </script>
 
 <style scoped>
-
 #p0 {
   font-size: 16pt;
 }
@@ -56,7 +51,7 @@ export default {
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   transition: 0.3s;
   padding: 16px;
-  margin :auto;
+  margin: auto;
   width: 500px;
   height: 200px;
   border-radius: 14px;

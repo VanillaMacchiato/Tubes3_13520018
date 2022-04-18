@@ -23,9 +23,15 @@ export default {
 
     <SidebarLink to="/" icon="fas fa-home">Halaman Utama</SidebarLink>
     <SidebarLink to="/input" icon="fas fa-heart">Input Penyakit</SidebarLink>
-    <SidebarLink to="/prediksi" icon="fas fa-thermometer-quarter">Prediksi Penyakit</SidebarLink>
-    <SidebarLink to="/hasil" icon="fas fa-user-circle">Hasil Prediksi</SidebarLink>
-    <SidebarLink to="/tentang" icon="fas fa-user">Mengenai Aplikasi</SidebarLink>
+    <SidebarLink to="/prediksi" icon="fas fa-thermometer-quarter">
+      Prediksi Penyakit
+    </SidebarLink>
+    <SidebarLink to="/hasil" icon="fas fa-user-circle">
+      Hasil Prediksi
+    </SidebarLink>
+    <SidebarLink to="/tentang" icon="fas fa-user">
+      Mengenai Aplikasi
+    </SidebarLink>
 
     <span
       class="collapse-icon"
