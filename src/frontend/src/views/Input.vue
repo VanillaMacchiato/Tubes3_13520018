@@ -32,7 +32,7 @@
         <i class="fa fa-paper-plane"></i>
         Submit
       </button>
-      <p v-if="berhasil">{{ textberhasil }}</p>
+      <p>{{ textberhasil }}</p>
     </div>
   </div>
 </template>
@@ -46,8 +46,7 @@ export default {
       namafile: '',
       nama: '',
       textfile: '',
-      textberhasil: 'Berhasil ditambahkan!',
-      berhasil: false
+      textberhasil: '',
     }
   },
   methods: {
@@ -55,6 +54,7 @@ export default {
       var fileData = event.target.files[0]
       this.namafile = fileData.name
       this.textfile = fileData
+      this.textberhasil = ''
     },
     onSubmit() {
       let formData = new FormData()
@@ -74,6 +74,11 @@ export default {
         .catch((e) => {
           console.log(e)
         })
+      //if berhasil
+        this.textberhasil="Berhasil ditambahkan!"
+      //else
+        this.textberhasil="Gagal ditambahkan! Data sudah ada atau input nama kosong"
+
     }
   }
 }

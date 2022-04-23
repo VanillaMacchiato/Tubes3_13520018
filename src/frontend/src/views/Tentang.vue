@@ -12,7 +12,7 @@
     </div>
     <div class="akhir">
       <h2>Sudah sih gitu aja</h2>
-      <h2>Ehe</h2>
+      <h2>Tehe</h2>
     </div>
   </div>
 </template>
@@ -56,6 +56,7 @@ export default {
   height: 200px;
   border-radius: 14px;
   border: 1px solid #15d3fd;
+  background-color: #fefefe;
 }
 .card:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);

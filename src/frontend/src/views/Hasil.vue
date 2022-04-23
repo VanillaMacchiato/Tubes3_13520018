@@ -1,59 +1,101 @@
 <template>
   <div class="hasil">
     <img alt="text hasil prediksi" src="../assets/hasil_prediksi.png" />
-    <div class="card">
-      <p class="judul">Cari Hasil Prediksi</p>
-      <div class="box1">
-        <label for="fname" class="label1"></label>
-        <input
-          type="text"
-          id="fname"
-          v-model="nama"
-          name="namapenyakit"
-          placeholder="<tanggal_prediksi><spasi><nama_penyakit>"
-        />
+  <div class="card">
+    <p class="judul"> Cari Hasil Prediksi</p>
+    <div class="box1">
+      <label for="fname" class="label1"></label>
+    <input type="text" id="fname" v-model="inputnama" name="namapenyakit" placeholder="<tanggal_prediksi><spasi><nama_penyakit>">
+    </div>
+    <button @click="onSubmit" class="searchbtn">
+          <i class="fa fa-search"></i> Cari
+        </button>
+    <p v-if="berhasil"> {{textberhasil}} </p>
+  </div>
+  <div class="box2">
+    <div class="mencari" v-if="!selesai">
+    <div id="img">
+    <img alt="loading" src="../assets/loading.gif" />
+    </div>
+    <p class="judul"> Sedang Melakukan Pencarian... </p>
+    </div>
+    </div>
+  <div class="card1" v-if="berhasil">
+    <p class="judul"> {{nama}} </p>
+    <div class="container" v-for="user in hasil" :key="user.id">
+      <div class="box3">
+          {{user.tanggal}}-{{user.nama}}-{{user.penyakit}}-{{user.terkena}}
       </div>
-      <button @click="berhasil = true" class="searchbtn">
-        <i class="fa fa-search"></i>
-        Cari
-      </button>
-      <p v-if="berhasil">{{ textberhasil }}</p>
-    </div>
-    <div class="box2" v-if="!berhasil">
-      <div id="img">
-        <img alt="loading" src="../assets/loading.gif" />
-      </div>
-      <p class="judul">Sedang Melakukan Pencarian...</p>
-    </div>
-    <div class="card1" v-if="berhasil">
-      <p class="judul">{{ nama }}</p>
-    </div>
+    </div>    
+  </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'Hasil',
-  components: {},
+  components: {
+  },
   data() {
     return {
-      nama: '',
-      textberhasil: 'Berhasil ditemukan!',
-      berhasil: false
+      inputnama: "",
+      nama: "",
+      textberhasil: "" ,
+      berhasil: false,
+      selesai: true,
+      hasil: [
+                { nama: 'Frank', tanggal: '13 April 2022', penyakit: 'ADU', terkena: 'True' },
+                { nama: 'Vic', tanggal: '4 April 2022', penyakit: 'ADI', terkena: 'True' },
+                { nama: 'Gina', tanggal: '5 April 2022', penyakit: 'ADA', terkena: 'False' },
+                { nama: 'Jessi', tanggal: '10 April 2022', penyakit: 'HIV', terkena: 'True' },
+                { nama: 'Jay', tanggal: '7 April 2022', penyakit: 'Malas', terkena: 'False' }
+            ]
+    };
+  },
+  methods: {
+    onSubmit() {
+      this.berhasil=false
+      this.selesai=false
+      this.nama=this.inputnama;
+      //pencarian
+      this.selesai = true
+      //if ditemukan
+      this.berhasil=true;
+      this.textberhasil="Berhasil ditemukan!"
+      //else
+      this.textberhasil="Hasil tidak ditemukan!"
+      
     }
   },
-  methods: {}
-}
+  
+  }
+
 </script>
 
 <style scoped>
+.box2 {
+  margin: auto;
+  width: 500px;
+}
+.box3 {
+  padding: 16px;
+  margin :auto;
+  width: 400px;
+  height: 20px;
+  border-radius: 14px;
+  border: 1px solid #15d3fd;
+  margin-top: 20px;
+}
 .judul {
   font-size: 25px;
   color: #15d3fd;
   font-weight: bold;
+  background-color: white;
+  width: 375px;
+  margin-left: 47pt;
 }
-input[type='text'],
-select {
+input[type=text], select {
   width: 310px;
   padding: 12px 20px;
   margin: 8px 0;
@@ -64,7 +106,7 @@ select {
 }
 
 .buttons {
-  text-align: justify;
+  text-align:justify;
 }
 .searchbtn {
   background-color: DodgerBlue;
@@ -76,6 +118,7 @@ select {
   left: 960px;
   top: 480px;
   margin-top: 80px;
+
 }
 .searchbtn:hover {
   background-color: RoyalBlue;
@@ -85,7 +128,8 @@ select {
   width: 200px;
   height: 50px;
   position: absolute;
-  margin-left: 100px;
+  margin-left:100px;
+ 
 }
 
 .card {
@@ -93,7 +137,7 @@ select {
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   transition: 0.3s;
   padding: 16px;
-  margin: auto;
+  margin :auto;
   width: 500px;
   height: 250px;
   border-radius: 14px;
@@ -108,9 +152,9 @@ select {
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   transition: 0.3s;
   padding: 16px;
-  margin: auto;
+  margin :auto;
   width: 500px;
-  height: 400px;
+  height: 100%;
   border-radius: 14px;
   border: 1px solid #15d3fd;
   margin-top: 100px;
@@ -118,4 +162,5 @@ select {
 .card1:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
+
 </style>

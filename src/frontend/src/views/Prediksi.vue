@@ -24,7 +24,6 @@
           accept=".txt"
           type="file"
           @change="onFileChange"
-          @click="berhasil = false"
         />
         <div class="box3">
           <label for="fname" class="label1">Prediksi penyakit:</label>
@@ -44,7 +43,7 @@
       </button>
       <p v-if="berhasil">{{ textberhasil }}</p>
       <div class="garis"></div>
-      <div class="box4" v-if="!berhasil">
+      <div class="box4" v-if="!selesai">
         <img id="loading" alt="img loading" src="../assets/loading_fast.gif" />
         <p class="judul">Sedang Diproses</p>
       </div>
@@ -65,7 +64,8 @@ export default {
       namapengguna: '',
       textfile: '',
       textberhasil: 'Proses Selesai!',
-      berhasil: true,
+      berhasil: false,
+      selesai: true,
       hasil: ''
     }
   },
@@ -74,8 +74,10 @@ export default {
       var fileData = event.target.files[0]
       this.name = fileData.name
       this.textfile = fileData
+      this.berhasil=false
     },
     onSubmit() {
+      this.selesai=false
       let formData = new FormData()
       formData.append('file', this.textfile)
       formData.append('name', this.namapengguna)
@@ -94,6 +96,8 @@ export default {
         .catch((e) => {
           console.log(e)
         })
+      this.berhasil = true
+      this.selesai=true
     }
   }
 }
