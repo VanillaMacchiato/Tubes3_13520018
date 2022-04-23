@@ -24,7 +24,7 @@
     <p class="judul"> {{nama}} </p>
     <div class="container" v-for="user in hasil" :key="user.id">
       <div class="box3">
-          {{user.tanggal}}-{{user.nama}}-{{user.penyakit}}-{{user.terkena}}
+          {{user.tanggal}}-{{user.nama}}-{{user.penyakit}}-{{user.terkena}}--{{user.kemiripan}}%
       </div>
     </div>    
   </div>
@@ -44,13 +44,7 @@ export default {
       textberhasil: "" ,
       berhasil: false,
       selesai: true,
-      hasil: [
-                { nama: 'Frank', tanggal: '13 April 2022', penyakit: 'ADU', terkena: 'True' },
-                { nama: 'Vic', tanggal: '4 April 2022', penyakit: 'ADI', terkena: 'True' },
-                { nama: 'Gina', tanggal: '5 April 2022', penyakit: 'ADA', terkena: 'False' },
-                { nama: 'Jessi', tanggal: '10 April 2022', penyakit: 'HIV', terkena: 'True' },
-                { nama: 'Jay', tanggal: '7 April 2022', penyakit: 'Malas', terkena: 'False' }
-            ]
+      hasil: []
     };
   },
   methods: {

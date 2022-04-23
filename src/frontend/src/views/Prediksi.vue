@@ -83,7 +83,7 @@ export default {
       formData.append('name', this.namapengguna)
       formData.append('disease', this.namapenyakit)
 
-      fetch('http://localhost:8080/api/v1/predict-patience', {
+      fetch('http://localhost:8081/api/v1/predict-patience', {
         method: 'POST',
         body: formData
       })
@@ -92,12 +92,13 @@ export default {
         })
         .then((data) => {
           console.log(data)
+          this.hasil = data.data.patientName + ' - ' + data.data.diseaseName + ' - ' + data.data.hasDisease.toUpperCase() + ' - ' + data.data.likeness + '%'
+          this.berhasil=true
+          this.selesai=true
         })
         .catch((e) => {
           console.log(e)
         })
-      this.berhasil = true
-      this.selesai=true
     }
   }
 }
