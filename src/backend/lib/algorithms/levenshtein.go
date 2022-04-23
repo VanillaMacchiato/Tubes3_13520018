@@ -1,6 +1,6 @@
 package algorithms
 
-func damerau_Levenshtein_distance(text, pattern string) int {
+func Damerau_Levenshtein_distance(text, pattern string) int {
 	var cost, db, l, k, idxK, idxL int
 	da := make(map[byte]int)
 	// cuman ada {A,C,G,T}
@@ -63,8 +63,42 @@ func damerau_Levenshtein_distance(text, pattern string) int {
 	return d[len(text)][len(pattern)]
 }
 
-func likeness(text, pattern string) float32 {
-	dist := damerau_Levenshtein_distance(text, pattern)
-	var likeness float32 = float32(dist) / float32(len(pattern))
-	return likeness
+func Likeness(text, pattern string) float32 {
+	var likeness float32 = 0.0
+
+	// check for likeness with substitution & transposition only (length of subText is the same as pattern)
+	subTextLen := len(pattern)
+	for i := 0; i <= len(text)-subTextLen; i++ {
+		subText := text[i : i+subTextLen]
+		dist := Damerau_Levenshtein_distance(subText, pattern)
+		temp := float32(dist) / float32(len(pattern))
+		temp = 1 - temp
+		if temp < 0 {
+			temp = 0.0
+		}
+		if likeness < temp {
+			likeness = temp
+		}
+	}
+
+	// check for likeness with subs, ins, del, and transposition (length of subText is 10% bigger than pattern)
+	if likeness < 0.80 {
+		subTextLen = int(float32(1.1) * float32(len(pattern)))
+		if subTextLen > len(text) {
+			subTextLen = len(text)
+		}
+		for i := 0; i <= len(text)-subTextLen; i++ {
+			subText := text[i : i+subTextLen]
+			dist := Damerau_Levenshtein_distance(subText, pattern)
+			temp := float32(dist) / float32(len(pattern))
+			temp = 1 - temp
+			if temp < 0 {
+				temp = 0.0
+			}
+			if likeness < temp {
+				likeness = temp
+			}
+		}
+	}
+	return likeness * 100
 }

@@ -76,7 +76,17 @@ func PredictPatientController() gin.HandlerFunc {
 		matches := algorithms.KMP(buf.String(), diseaseDetail.DNA)
 		found := false
 		if len(matches) > 0 {
-			found = false
+			found = true
+		}
+
+		var likeness float32 = 0.0
+		if found {
+			likeness = 100.0
+		} else {
+			likeness = algorithms.Likeness(buf.String(), diseaseDetail.DNA)
+			if likeness >= 80.0 {
+				found = true
+			}
 		}
 
 		// Add new result
@@ -86,6 +96,7 @@ func PredictPatientController() gin.HandlerFunc {
 			PatientName: patientName,
 			DiseaseName: diseasePrediction,
 			HasDisease:  found,
+			Likeness:    likeness,
 		}
 
 		// Add result to DB
@@ -104,6 +115,7 @@ func PredictPatientController() gin.HandlerFunc {
 				"patientName": newResult.PatientName,
 				"diseaseName": newResult.DiseaseName,
 				"hasDisease":  newResult.HasDisease,
+				"likeness":    newResult.Likeness,
 			}})
 
 	}

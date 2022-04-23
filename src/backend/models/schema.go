@@ -14,4 +14,5 @@ type Result struct {
 	PatientName string             `bson:"patientName,omitempty"`
 	DiseaseName string             `bson:"diseaseName,omitempty"`
 	HasDisease  bool               `bson:"hasDisease"`
+	Likeness    float32            `bson:"likeness"`
 }
