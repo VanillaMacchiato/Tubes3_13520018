@@ -9,6 +9,9 @@ Menjalankan backend pada local:
 
 # API Endpoint
 
+- [Menambahkan Penyakit pada Database](#menambahkan-penyakit-pada-database)
+- [Melakukan Prediksi pada Pasien](#melakukan-prediksi-pada-pasien)
+
 ## Menambahkan Penyakit pada Database
 
 **Request**
@@ -39,10 +42,30 @@ File yang diunggah melalui multipart form-data pada key `file` ini berisi raw te
 
 Request dengan multipart/form-data berisi tiga pair key-value sebagai berikut
 
-| Key     | Value                             |
-| ------- | --------------------------------- |
-| file    | [isi dengan file]                 |
-| name    | isi dengan nama pasien            |
-| disease | isi dengan prediksi nama penyakit |
+| Key       | Value                    |
+| --------- | ------------------------ |
+| file      | [isi dengan file DNA]    |
+| name      | nama pasien              |
+| disease   | prediksi nama penyakit   |
+| algorithm | algoritma yang digunakan |
 
 File yang diunggah melalui multipart form-data pada key `file` ini berisi raw text DNA. Jika mengandung karakter yang tidak diinginkan (bukan ACGT), penambahan ke database ditolak.
+
+## Mendapatkan Hasil Prediksi
+
+**Request**
+
+`GET /api/v1/result`
+
+| Parameter | Format        |
+| --------- | ------------- |
+| date      | YYYY-MM-DD    |
+| name      | Nama penyakit |
+
+Mengembalikan hasil pasien yang telah diprediksi.
+
+Contoh:
+
+- `/api/v1/result?date=2022-04-22`
+- `/api/v1/result?name=HIV`
+- `/api/v1/result?name=HIV&date=2022-04-22`

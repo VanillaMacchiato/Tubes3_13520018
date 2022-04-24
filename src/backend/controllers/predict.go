@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"backend/db"
 	"backend/lib/algorithms"
 	"backend/lib/dna"
 	"backend/models"
@@ -15,13 +14,10 @@ import (
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 
 	"github.com/gin-gonic/gin"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
-
-var resultsCollection *mongo.Collection = db.GetCollection(db.DB, db.COLLECTION_RESULTS)
 
 func PredictPatientController() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -34,6 +30,7 @@ func PredictPatientController() gin.HandlerFunc {
 		file, _, err := c.Request.FormFile("file")
 		patientName := c.Request.FormValue("name")
 		diseasePrediction := c.Request.FormValue("disease")
+		algorithm := c.Request.FormValue("algorithm")
 
 		if err != nil {
 			// error on receiving file
@@ -42,6 +39,18 @@ func PredictPatientController() gin.HandlerFunc {
 		}
 		defer file.Close()
 
+		// Check algorithm used for prediction
+		algorithmsAvailable := map[string]bool{
+			"KMP":         true,
+			"BoyerMoore":  true,
+			"Levenshtein": true,
+			"":            true, // algorithm not specified
+		}
+		if !algorithmsAvailable[algorithm] {
+			c.JSON(http.StatusBadRequest, gin.H{"status": status.Error, "code": statuscodes.InvalidAlgorithm, "message": statuscodes.Text(statuscodes.InvalidAlgorithm)})
+			return
+		}
+
 		// Check patient name
 		if len(patientName) == 0 {
 			c.JSON(http.StatusBadRequest, gin.H{"status": status.Error, "code": statuscodes.PatientNameEmpty, "message": statuscodes.Text(statuscodes.PatientNameEmpty)})
@@ -49,6 +58,7 @@ func PredictPatientController() gin.HandlerFunc {
 		}
 		if err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"status": status.Error, "code": statuscodes.ServerError, "message": statuscodes.Text(statuscodes.ServerError)})
+			return
 		}
 
 		// Check if the disease name exist
@@ -73,19 +83,24 @@ func PredictPatientController() gin.HandlerFunc {
 		}
 
 		// Check if the patient's DNA matches the predicted disease
-		matches := algorithms.KMP(buf.String(), diseaseDetail.DNA)
 		found := false
-		if len(matches) > 0 {
-			found = true
-		}
-
+		diseaseDNA := diseaseDetail.DNA
+		patientDNA := buf.String()
 		var likeness float32 = 0.0
-		if found {
+		if algorithm == "KMP" {
+			found = algorithms.KMP(patientDNA, diseaseDNA)
 			likeness = 100.0
-		} else {
-			likeness = algorithms.Likeness(buf.String(), diseaseDetail.DNA)
-			if likeness >= 80.0 {
-				found = true
+		} else if algorithm == "BoyerMoore" {
+			found = algorithms.BoyerMoore(patientDNA, diseaseDNA)
+			likeness = 100.0
+		} else if algorithm == "Levenshtein" {
+			if found {
+				likeness = 100.0
+			} else {
+				likeness = algorithms.Likeness(buf.String(), diseaseDetail.DNA)
+				if likeness >= 80.0 {
+					found = true
+				}
 			}
 		}
 
@@ -108,7 +123,7 @@ func PredictPatientController() gin.HandlerFunc {
 		}
 
 		c.JSON(http.StatusOK, gin.H{"status": status.Success,
-			"message": statuscodes.PredictSuccess,
+			"code": statuscodes.PredictSuccess,
 			"data": gin.H{
 				"_id":         newResult.ID,
 				"date":        newResult.Date,
@@ -117,7 +132,6 @@ func PredictPatientController() gin.HandlerFunc {
 				"hasDisease":  newResult.HasDisease,
 				"likeness":    newResult.Likeness,
 			}})
-
 	}
 
 }

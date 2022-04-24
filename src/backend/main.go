@@ -27,6 +27,7 @@ func main() {
 	{
 		v1.AddDiseaseRoute(v1Group)
 		v1.PredictPatience(v1Group)
+		v1.GetResult(v1Group)
 	}
 
 	router.Run()

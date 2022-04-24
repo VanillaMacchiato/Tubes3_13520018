@@ -1,6 +1,6 @@
 package algorithms
 
-func KMP(text, pattern string) []int {
+func KMP(text, pattern string) bool {
 
 	// border function
 	patternLength := len(pattern)
@@ -39,5 +39,5 @@ func KMP(text, pattern string) []int {
 		}
 	}
 
-	return foundList
+	return len(foundList) > 0
 }

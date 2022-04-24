@@ -3,11 +3,13 @@ package statuscodes
 // status code
 const (
 	// success
-	DNASuccess = "DNA_INSERTION_SUCCESS"
+	DNASuccess     = "DNA_INSERTION_SUCCESS"
 	PredictSuccess = "DISEASE_PREDICTION_SUCCESS"
+	ResultSuccess  = "GET_RESULT_SUCCESS"
 
 	// error
 	InvalidDNA       = "INVALID_DNA"
+	InvalidAlgorithm = "INVALID_ALGORITHM"
 	DiseaseExists    = "DISEASE_ALREADY_EXISTS"
 	DiseaseNotExits  = "DISEASE_DOES_NOT_EXIST"
 	DiseaseEmpty     = "DISEASE_EMPTY"
@@ -18,6 +20,7 @@ const (
 
 var text = map[string]string{
 	InvalidDNA:       "DNA sequence contains illegal characters",
+	InvalidAlgorithm: "The specified algorithm invalid. Algorithms available: KMP, BoyerMoore, or Levenshtein. ",
 	DiseaseExists:    "Disease name already exists",
 	DiseaseNotExits:  "DNA information from the disease requested is not yet available",
 	PatientNameEmpty: "Patient name empty",

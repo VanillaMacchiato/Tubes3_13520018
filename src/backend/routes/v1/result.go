@@ -1,7 +1,8 @@
 package v1
 
-import "github.com/gin-gonic/gin"
+import ("github.com/gin-gonic/gin"
+	"backend/controllers")
 
 func GetResult(router *gin.RouterGroup) {
-	router.GET("/result")	
+	router.GET("/result", controllers.GetResultController())	
 }
