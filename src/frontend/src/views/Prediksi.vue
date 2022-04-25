@@ -4,7 +4,7 @@
     <div class="card">
       <p class="judul">Tes DNA</p>
       <div class="box1">
-        <label for="fname" class="label1">Nama Penggguna:</label>
+        <label for="fname" class="label1">Nama Pengguna:</label>
         <input
           type="text"
           id="fname"
@@ -82,6 +82,7 @@ export default {
       formData.append('file', this.textfile)
       formData.append('name', this.namapengguna)
       formData.append('disease', this.namapenyakit)
+      formData.append('algorithm', 'KMP')
 
       fetch('http://localhost:8081/api/v1/predict-patience', {
         method: 'POST',
@@ -92,7 +93,7 @@ export default {
         })
         .then((data) => {
           console.log(data)
-          this.hasil = data.data.patientName + ' - ' + data.data.diseaseName + ' - ' + data.data.hasDisease.toUpperCase() + ' - ' + data.data.likeness + '%'
+          this.hasil = data.data.patientName + ' - ' + data.data.diseaseName + ' - ' + data.data.hasDisease.toString().toUpperCase() + ' - ' + data.data.likeness + '%'
           this.berhasil=true
           this.selesai=true
         })

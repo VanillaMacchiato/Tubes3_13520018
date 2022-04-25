@@ -2,6 +2,7 @@ package controllers
 
 import (
 	"backend/db"
+	"backend/lib/searchresult"
 	"backend/models"
 	"backend/utils/status"
 	"backend/utils/status/statuscodes"
@@ -24,24 +25,26 @@ func GetResultController() gin.HandlerFunc {
 		params := c.Request.URL.Query()
 
 		var date, diseaseName string
-		dateParam := params["date"]
-		diseaseParam := params["name"]
-		if dateParam != nil {
-			date = dateParam[0]
+		dateParam, diseaseParam, err := searchresult.SanitizeInput(params["input"][0])
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"status": status.Error, "code": statuscodes.WrongSearchQuery, "message": err.Error()})
+			return
 		}
-		if diseaseParam != nil {
-			diseaseName = diseaseParam[0]
+		if dateParam != "" {
+			date = dateParam
+		}
+		if diseaseParam != "" {
+			diseaseName = diseaseParam
 		}
 
 		var cursor *mongo.Cursor
 		var parsedDate time.Time
-		var err error
 
 		_, offset := time.Now().Zone()
 		layout := "2006-01-02"
 		if date != "" {
 			parsedDate, err = time.Parse(layout, date)
-			parsedDate = parsedDate.Add(-time.Duration(offset)*time.Second)	// time zone correction
+			parsedDate = parsedDate.Add(-time.Duration(offset) * time.Second) // time zone correction
 			if err != nil {
 				c.JSON(http.StatusInternalServerError, gin.H{"status": status.Error, "code": statuscodes.ServerError, "message": err.Error()})
 				return
@@ -50,13 +53,13 @@ func GetResultController() gin.HandlerFunc {
 		fmt.Println(time.Duration(offset) * time.Second)
 
 		if diseaseName != "" && date != "" {
-			cursor, err = resultsCollection.Find(ctx, gin.H{"diseaseName": gin.H{"$eq": diseaseName}, "date": gin.H{"$gte": parsedDate, "$lt": parsedDate.Local().Add(time.Hour*24)}})
+			cursor, err = resultsCollection.Find(ctx, gin.H{"diseaseName": gin.H{"$eq": diseaseName}, "date": gin.H{"$gte": parsedDate, "$lt": parsedDate.Local().Add(time.Hour * 24)}})
 			if err != nil {
 				c.JSON(http.StatusInternalServerError, gin.H{"status": status.Error, "code": statuscodes.ServerError, "message": err.Error()})
 				return
 			}
 		} else if diseaseName == "" && date != "" {
-			cursor, err = resultsCollection.Find(ctx, gin.H{"date": gin.H{"$gte": parsedDate, "$lt": parsedDate.Add(time.Hour*24)}})
+			cursor, err = resultsCollection.Find(ctx, gin.H{"date": gin.H{"$gte": parsedDate, "$lt": parsedDate.Add(time.Hour * 24)}})
 		} else if date == "" && diseaseName != "" {
 			fmt.Println("elif date")
 			cursor, err = resultsCollection.Find(ctx, gin.H{"diseaseName": gin.H{"$eq": diseaseName}})

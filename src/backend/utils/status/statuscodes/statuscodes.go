@@ -16,6 +16,7 @@ const (
 	PatientNameEmpty = "PATIENT_NAME_EMPTY"
 	FileError        = "FILE_ERROR"
 	ServerError      = "INTERNAL_SERVER_ERROR"
+	WrongSearchQuery = "WRONG_SEARCH_QUERY"
 )
 
 var text = map[string]string{
@@ -27,6 +28,7 @@ var text = map[string]string{
 	DiseaseEmpty:     "Disease name empty",
 	FileError:        "An error occured while reading the file",
 	ServerError:      "The server encountered an error",
+	WrongSearchQuery: "Wrong search query",
 }
 
 func Text(code string) string {

@@ -1,70 +1,95 @@
 <template>
   <div class="hasil">
     <img alt="text hasil prediksi" src="../assets/hasil_prediksi.png" />
-  <div class="card">
-    <p class="judul"> Cari Hasil Prediksi</p>
-    <div class="box1">
-      <label for="fname" class="label1"></label>
-    <input type="text" id="fname" v-model="inputnama" name="namapenyakit" placeholder="<tanggal_prediksi><spasi><nama_penyakit>">
-    </div>
-    <button @click="onSubmit" class="searchbtn">
-          <i class="fa fa-search"></i> Cari
-        </button>
-    <p v-if="berhasil"> {{textberhasil}} </p>
-  </div>
-  <div class="box2">
-    <div class="mencari" v-if="!selesai">
-    <div id="img">
-    <img alt="loading" src="../assets/loading.gif" />
-    </div>
-    <p class="judul"> Sedang Melakukan Pencarian... </p>
-    </div>
-    </div>
-  <div class="card1" v-if="berhasil">
-    <p class="judul"> {{nama}} </p>
-    <div class="container" v-for="user in hasil" :key="user.id">
-      <div class="box3">
-          {{user.tanggal}}-{{user.nama}}-{{user.penyakit}}-{{user.terkena}}--{{user.kemiripan}}%
+    <div class="card">
+      <p class="judul">Cari Hasil Prediksi</p>
+      <div class="box1">
+        <label for="fname" class="label1"></label>
+        <input
+          type="text"
+          id="fname"
+          v-model="inputUser"
+          name="namapenyakit"
+          placeholder="<tanggal_prediksi><spasi><nama_penyakit>"
+        />
       </div>
-    </div>    
-  </div>
+      <button @click="onSubmit" class="searchbtn">
+        <i class="fa fa-search"></i>
+        Cari
+      </button>
+      <p v-if="berhasil">{{ textberhasil }}</p>
+    </div>
+    <div class="box2">
+      <div class="mencari" v-if="!selesai">
+        <div id="img">
+          <img alt="loading" src="../assets/loading.gif" />
+        </div>
+        <p class="judul">Sedang Melakukan Pencarian...</p>
+      </div>
+    </div>
+    <div class="card1" v-if="berhasil">
+      <p class="judul">{{ nama }}</p>
+      <div class="container" v-for="user in hasil" :key="user.id">
+        <div class="box3">
+          {{ user.tanggal }} - {{ user.nama }} - {{ user.penyakit }} -
+          {{ user.terkena }} - {{ user.kemiripan }}%
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-
 export default {
   name: 'Hasil',
-  components: {
-  },
+  components: {},
   data() {
     return {
-      inputnama: "",
-      nama: "",
-      textberhasil: "" ,
+      inputUser: '',
+      nama: '',
+      textberhasil: '',
       berhasil: false,
       selesai: true,
       hasil: []
-    };
+    }
   },
   methods: {
     onSubmit() {
-      this.berhasil=false
-      this.selesai=false
-      this.nama=this.inputnama;
-      //pencarian
-      this.selesai = true
-      //if ditemukan
-      this.berhasil=true;
-      this.textberhasil="Berhasil ditemukan!"
-      //else
-      this.textberhasil="Hasil tidak ditemukan!"
-      
-    }
-  },
-  
-  }
+      this.berhasil = false
+      this.selesai = false
+      this.hasil = []
 
+      this.url =
+        'http://localhost:8081/api/v1/result' +
+        '/?input=' +
+        this.inputUser.replaceAll(' ', '%20')
+      fetch(this.url)
+        .then((res) => {
+          return res.json()
+        })
+        .then((data) => {
+          console.log(data)
+          for (let i = 0; i < data.data.length; i++) {
+            let entry = {
+              tanggal: data.data[i].Date.slice(0, 10),
+              nama: data.data[i].PatientName,
+              penyakit: data.data[i].DiseaseName,
+              terkena: data.data[i].HasDisease.toString().toUpperCase(),
+              kemiripan: data.data[i].Likeness
+            }
+            this.hasil.push(entry)
+          }
+          this.berhasil = true
+          this.textberhasil = 'Berhasil ditemukan!'
+        })
+        .catch((e) => {
+          console.log(e)
+          this.textberhasil = 'Hasil tidak ditemukan!'
+        })
+      this.selesai = true
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -74,7 +99,7 @@ export default {
 }
 .box3 {
   padding: 16px;
-  margin :auto;
+  margin: auto;
   width: 400px;
   height: 20px;
   border-radius: 14px;
@@ -89,7 +114,8 @@ export default {
   width: 375px;
   margin-left: 47pt;
 }
-input[type=text], select {
+input[type='text'],
+select {
   width: 310px;
   padding: 12px 20px;
   margin: 8px 0;
@@ -100,7 +126,7 @@ input[type=text], select {
 }
 
 .buttons {
-  text-align:justify;
+  text-align: justify;
 }
 .searchbtn {
   background-color: DodgerBlue;
@@ -112,7 +138,6 @@ input[type=text], select {
   left: 960px;
   top: 480px;
   margin-top: 80px;
-
 }
 .searchbtn:hover {
   background-color: RoyalBlue;
@@ -122,8 +147,7 @@ input[type=text], select {
   width: 200px;
   height: 50px;
   position: absolute;
-  margin-left:100px;
- 
+  margin-left: 100px;
 }
 
 .card {
@@ -131,7 +155,7 @@ input[type=text], select {
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   transition: 0.3s;
   padding: 16px;
-  margin :auto;
+  margin: auto;
   width: 500px;
   height: 250px;
   border-radius: 14px;
@@ -146,7 +170,7 @@ input[type=text], select {
   box-shadow: inset 0 4px 4px 0 rgba(0, 0, 0, 0.25);
   transition: 0.3s;
   padding: 16px;
-  margin :auto;
+  margin: auto;
   width: 500px;
   height: 100%;
   border-radius: 14px;
@@ -156,5 +180,4 @@ input[type=text], select {
 .card1:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
-
 </style>

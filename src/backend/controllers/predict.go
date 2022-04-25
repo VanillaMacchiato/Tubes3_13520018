@@ -90,9 +90,21 @@ func PredictPatientController() gin.HandlerFunc {
 		if algorithm == "KMP" {
 			found = algorithms.KMP(patientDNA, diseaseDNA)
 			likeness = 100.0
+			if !found {
+				likeness = algorithms.Likeness(buf.String(), diseaseDetail.DNA)
+				if likeness >= 80.0 {
+					found = true
+				}
+			}
 		} else if algorithm == "BoyerMoore" {
 			found = algorithms.BoyerMoore(patientDNA, diseaseDNA)
 			likeness = 100.0
+			if !found {
+				likeness = algorithms.Likeness(buf.String(), diseaseDetail.DNA)
+				if likeness >= 80.0 {
+					found = true
+				}
+			}
 		} else if algorithm == "Levenshtein" {
 			if found {
 				likeness = 100.0
