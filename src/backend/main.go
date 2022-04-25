@@ -4,6 +4,7 @@ import (
 	"backend/db"
 	v1 "backend/routes/v1"
 	"log"
+	"net/http"
 
 	"github.com/joho/godotenv"
 
@@ -22,6 +23,9 @@ func main() {
 
 	// connect to database
 	db.Connect()
+
+	// ping
+	router.GET("/", func(ctx *gin.Context) {ctx.JSON(http.StatusOK, "DNA at Work! Backend")})
 
 	v1Group := router.Group("/api/v1")
 	{
