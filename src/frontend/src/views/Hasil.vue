@@ -60,7 +60,7 @@ export default {
       this.hasil = []
 
       this.url =
-        'http://localhost:8081/api/v1/result' +
+        'http://localhost:8080/api/v1/result' +
         '/?input=' +
         this.inputUser.replaceAll(' ', '%20')
       fetch(this.url)
