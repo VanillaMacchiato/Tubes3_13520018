@@ -83,12 +83,21 @@ export default {
           this.textberhasil = 'Berhasil ditemukan!'
         })
         .catch((e) => {
-          console.log(e)
+          if (e instanceof SyntaxError) {
+            printError(e, true)
+          } else {
+            printError(e, false)
+          }
           this.textberhasil = 'Hasil tidak ditemukan!'
         })
       this.selesai = true
     }
   }
+}
+var printError = function (error, explicit) {
+  console.log(
+    `[${explicit ? 'EXPLICIT' : 'INEXPLICIT'}] ${error.name}: ${error.message}`
+  )
 }
 </script>
 
