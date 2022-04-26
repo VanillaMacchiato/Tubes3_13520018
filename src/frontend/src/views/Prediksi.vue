@@ -83,11 +83,14 @@ export default {
       formData.append('name', this.namapengguna)
       formData.append('disease', this.namapenyakit)
       formData.append('algorithm', 'KMP')
-
-      fetch('https://dna-at-work.pages.dev/api/v1/predict-patience', {
-        method: 'POST',
-        body: formData
-      })
+      // lets see if this works
+      fetch(
+        'https://dna-at-work-backend.herokuapp.com/api/v1/predict-patience',
+        {
+          method: 'POST',
+          body: formData
+        }
+      )
         .then((res) => {
           return res.json()
         })
