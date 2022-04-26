@@ -74,17 +74,17 @@ export default {
       var fileData = event.target.files[0]
       this.name = fileData.name
       this.textfile = fileData
-      this.berhasil=false
+      this.berhasil = false
     },
     onSubmit() {
-      this.selesai=false
+      this.selesai = false
       let formData = new FormData()
       formData.append('file', this.textfile)
       formData.append('name', this.namapengguna)
       formData.append('disease', this.namapenyakit)
       formData.append('algorithm', 'KMP')
 
-      fetch('http://localhost:8081/api/v1/predict-patience', {
+      fetch('http://localhost:8080/api/v1/predict-patience', {
         method: 'POST',
         body: formData
       })
@@ -93,9 +93,17 @@ export default {
         })
         .then((data) => {
           console.log(data)
-          this.hasil = data.data.patientName + ' - ' + data.data.diseaseName + ' - ' + data.data.hasDisease.toString().toUpperCase() + ' - ' + data.data.likeness + '%'
-          this.berhasil=true
-          this.selesai=true
+          this.hasil =
+            data.data.patientName +
+            ' - ' +
+            data.data.diseaseName +
+            ' - ' +
+            data.data.hasDisease.toString().toUpperCase() +
+            ' - ' +
+            data.data.likeness +
+            '%'
+          this.berhasil = true
+          this.selesai = true
         })
         .catch((e) => {
           console.log(e)

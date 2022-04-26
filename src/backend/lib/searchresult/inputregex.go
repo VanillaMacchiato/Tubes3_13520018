@@ -20,7 +20,16 @@ func SanitizeInput(input string) (string, string, error) {
 
 	dateRegex := regex.FindAllString(trueInput, -1)
 	if len(dateRegex) == 1 {
-		date = dateRegex[0]
+		regex, err = regexp.Compile(`(\b[0-9]{4}-[0-9]{2}-[0-9]{2}\b)`)
+		dateRegex = regex.FindAllString(trueInput, -1)
+		if len(dateRegex) == 1 {
+			date = dateRegex[0]
+		} else {
+			regex, err = regexp.Compile(`(\b[0-9]{2}-[0-9]{2}-[0-9]{4}\b)`)
+			dateRegex = regex.FindAllString(trueInput, -1)
+			date = dateRegex[0]
+			date = date[6:10] + "-" + date[3:5] + "-" + date[0:2]
+		}
 		trueInput = regex.ReplaceAllString(trueInput, "")
 	} else {
 		fmt.Printf("Invalid date format, has %d date inputs", len(dateRegex))
