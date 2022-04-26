@@ -65,7 +65,6 @@ export default {
         this.inputUser.replaceAll(' ', '%20')
       fetch(this.url)
         .then((res) => {
-          console.log(res)
           return res.json()
         })
         .then((data) => {
