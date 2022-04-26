@@ -84,7 +84,7 @@ export default {
       formData.append('disease', this.namapenyakit)
       formData.append('algorithm', 'KMP')
 
-      fetch('http://localhost:8080/api/v1/predict-patience', {
+      fetch('https://dna-at-work.pages.dev/api/v1/predict-patience', {
         method: 'POST',
         body: formData
       })

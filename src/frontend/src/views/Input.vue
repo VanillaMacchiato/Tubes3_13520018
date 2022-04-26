@@ -61,7 +61,7 @@ export default {
       formData.append('disease-name', this.nama)
       formData.append('file', this.textfile)
 
-      fetch('http://localhost:8081/api/v1/add-disease', {
+      fetch('https://dna-at-work.pages.dev/api/v1/add-disease', {
         method: 'POST',
         body: formData
       })
