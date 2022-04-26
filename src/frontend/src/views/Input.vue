@@ -46,7 +46,7 @@ export default {
       namafile: '',
       nama: '',
       textfile: '',
-      textberhasil: '',
+      textberhasil: ''
     }
   },
   methods: {
@@ -75,10 +75,10 @@ export default {
           console.log(e)
         })
       //if berhasil
-        this.textberhasil="Berhasil ditambahkan!"
+      this.textberhasil = 'Berhasil ditambahkan!'
       //else
-        this.textberhasil="Gagal ditambahkan! Data sudah ada atau input nama kosong"
-
+      this.textberhasil =
+        'Gagal ditambahkan! Data sudah ada atau input nama kosong'
     }
   }
 }
