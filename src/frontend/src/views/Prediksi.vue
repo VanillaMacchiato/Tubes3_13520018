@@ -84,7 +84,7 @@ export default {
       formData.append('disease', this.namapenyakit)
       formData.append('algorithm', 'KMP')
       // lets see if this works
-      fetch('https://dna-at-work.pages.dev/api/v1/predict-patience', {
+      fetch('https://dna-at-work.netlify.app/api/v1/predict-patience', {
         method: 'POST',
         body: formData
       })
