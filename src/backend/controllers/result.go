@@ -64,10 +64,8 @@ func GetResultController() gin.HandlerFunc {
 		} else if diseaseName == "" && date != "" {
 			cursor, err = resultsCollection.Find(ctx, gin.H{"date": gin.H{"$gte": parsedDate, "$lt": parsedDate.Add(time.Hour * 24)}})
 		} else if date == "" && diseaseName != "" {
-			fmt.Println("elif date")
 			cursor, err = resultsCollection.Find(ctx, gin.H{"diseaseName": gin.H{"$eq": diseaseName}})
 		} else {
-			fmt.Println("else")
 			cursor, err = resultsCollection.Find(ctx, gin.H{})
 		}
 
