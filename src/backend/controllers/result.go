@@ -28,7 +28,14 @@ func GetResultController() gin.HandlerFunc {
 		params := c.Request.URL.Query()
 
 		var date, diseaseName string
-		dateParam, diseaseParam, err := searchresult.SanitizeInput(params["input"][0])
+		inputParam := params["input"]
+		if len(inputParam) == 0 {
+			c.JSON(http.StatusBadRequest, gin.H{"status": status.Error, "code": statuscodes.WrongSearchQuery, "message": "No query provided"})
+			return
+		}
+
+		dateParam, diseaseParam, err := searchresult.SanitizeInput(inputParam[0])
+		
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"status": status.Error, "code": statuscodes.WrongSearchQuery, "message": err.Error()})
 			return
