@@ -46,7 +46,7 @@ export default {
       namafile: '',
       nama: '',
       textfile: '',
-      textberhasil: '',
+      textberhasil: ''
     }
   },
   methods: {
@@ -61,7 +61,7 @@ export default {
       formData.append('disease-name', this.nama)
       formData.append('file', this.textfile)
 
-      fetch('http://localhost:8081/api/v1/add-disease', {
+      fetch('http://localhost:8080/api/v1/add-disease', {
         method: 'POST',
         body: formData
       })
@@ -70,15 +70,12 @@ export default {
         })
         .then((data) => {
           console.log(data)
+          this.textberhasil = 'Berhasil ditambahkan!'
         })
         .catch((e) => {
           console.log(e)
+          this.textberhasil = 'Gagal ditambahkan!'
         })
-      //if berhasil
-        this.textberhasil="Berhasil ditambahkan!"
-      //else
-        this.textberhasil="Gagal ditambahkan! Data sudah ada atau input nama kosong"
-
     }
   }
 }
