@@ -61,9 +61,8 @@ export default {
 
       this.url =
         'https://dna-at-work-backend.herokuapp.com/api/v1/result' +
-        '/?input=' +
-        this.inputUser.replaceAll(' ', '%20') +
-        '/'
+        '?input=' +
+        this.inputUser.replaceAll(' ', '%20')
       fetch(this.url)
         .then((res) => {
           return res.json()
