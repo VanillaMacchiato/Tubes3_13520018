@@ -9,6 +9,7 @@ import (
 	"github.com/joho/godotenv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/cors"
 )
 
 func init() {
@@ -34,5 +35,6 @@ func main() {
 		v1.GetResult(v1Group)
 	}
 
+	router.Use(cors.Default())
 	router.Run()
 }
