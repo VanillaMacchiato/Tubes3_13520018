@@ -70,15 +70,14 @@ export default {
         })
         .then((data) => {
           console.log(data)
+          //if berhasil
+          this.textberhasil = 'Berhasil ditambahkan!'
         })
         .catch((e) => {
           console.log(e)
+          this.textberhasil =
+            'Gagal ditambahkan! Data sudah ada atau input nama kosong'
         })
-      //if berhasil
-      this.textberhasil = 'Berhasil ditambahkan!'
-      //else
-      this.textberhasil =
-        'Gagal ditambahkan! Data sudah ada atau input nama kosong'
     }
   }
 }
