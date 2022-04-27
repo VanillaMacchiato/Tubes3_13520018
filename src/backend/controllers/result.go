@@ -9,6 +9,7 @@ import (
 	"context"
 	"fmt"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -19,13 +20,22 @@ var resultsCollection *mongo.Collection = db.GetCollection(db.DB, db.COLLECTION_
 
 func GetResultController() gin.HandlerFunc {
 	return func(c *gin.Context) {
+		c.Header("Access-Control-Allow-Origin", os.Getenv("FE_URL"))
+
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 		defer cancel()
 
 		params := c.Request.URL.Query()
 
 		var date, diseaseName string
-		dateParam, diseaseParam, err := searchresult.SanitizeInput(params["input"][0])
+		inputParam := params["input"]
+		if len(inputParam) == 0 {
+			c.JSON(http.StatusBadRequest, gin.H{"status": status.Error, "code": statuscodes.WrongSearchQuery, "message": "No query provided"})
+			return
+		}
+
+		dateParam, diseaseParam, err := searchresult.SanitizeInput(inputParam[0])
+		
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"status": status.Error, "code": statuscodes.WrongSearchQuery, "message": err.Error()})
 			return
@@ -61,10 +71,8 @@ func GetResultController() gin.HandlerFunc {
 		} else if diseaseName == "" && date != "" {
 			cursor, err = resultsCollection.Find(ctx, gin.H{"date": gin.H{"$gte": parsedDate, "$lt": parsedDate.Add(time.Hour * 24)}})
 		} else if date == "" && diseaseName != "" {
-			fmt.Println("elif date")
 			cursor, err = resultsCollection.Find(ctx, gin.H{"diseaseName": gin.H{"$eq": diseaseName}})
 		} else {
-			fmt.Println("else")
 			cursor, err = resultsCollection.Find(ctx, gin.H{})
 		}
 

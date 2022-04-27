@@ -75,8 +75,7 @@ export default {
         })
         .catch((e) => {
           console.log(e)
-          this.textberhasil =
-            'Gagal ditambahkan! Data sudah ada atau input nama kosong'
+          this.textberhasil = 'Gagal ditambahkan!'
         })
     }
   }

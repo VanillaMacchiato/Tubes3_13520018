@@ -35,6 +35,27 @@
             placeholder="Penyakit..."
           />
         </div>
+        <p class="textpilihan">Pilih algoritma pencarian:</p>
+        <div class="algo1">
+          <label class="container">
+            Boyer-Moore
+            <input
+              type="radio"
+              checked="checked"
+              name="radio"
+              value="bm"
+              v-model="radiobtn"
+            />
+            <span class="btnRadio"></span>
+          </label>
+        </div>
+        <div class="algo2">
+          <label class="container">
+            Knuth-Morris-Pratt
+            <input type="radio" name="radio" value="kmp" v-model="radiobtn" />
+            <span class="btnRadio"></span>
+          </label>
+        </div>
       </div>
       <div class="namafile">{{ namafile }}</div>
       <button @click="onSubmit" class="submitbtn">
@@ -63,16 +84,17 @@ export default {
       namapenyakit: '',
       namapengguna: '',
       textfile: '',
-      textberhasil: 'Proses Selesai!',
+      textberhasil: '',
       berhasil: false,
       selesai: true,
-      hasil: ''
+      hasil: '',
+      radiobtn: ''
     }
   },
   methods: {
     onFileChange(event) {
       var fileData = event.target.files[0]
-      this.name = fileData.name
+      this.namafile = fileData.name
       this.textfile = fileData
       this.berhasil = false
     },
@@ -82,8 +104,11 @@ export default {
       formData.append('file', this.textfile)
       formData.append('name', this.namapengguna)
       formData.append('disease', this.namapenyakit)
-      formData.append('algorithm', 'KMP')
-      // lets see if this works
+      if (this.radiobtn == 'bm') {
+        formData.append('algorithm', 'BoyerMoore')
+      } else {
+        formData.append('algorithm', 'KMP')
+      }
       fetch(
         'https://dna-at-work-backend.herokuapp.com/api/v1/predict-patience',
         {
@@ -106,11 +131,13 @@ export default {
             data.data.likeness +
             '%'
           this.berhasil = true
-          this.selesai = true
+          this.textberhasil = 'Proses Selesai!'
         })
         .catch((e) => {
           console.log(e)
+          this.textberhasil = 'Proses Gagal!'
         })
+      this.selesai = true
     }
   }
 }
@@ -120,11 +147,26 @@ export default {
 .h2 {
   margin-top: 70px;
 }
-
+.textpilihan {
+  margin-top: 30px;
+  font-size: 15px;
+  font-weight: bold;
+}
 #loading {
   width: 200px;
 }
-
+.pilihan {
+  margin-top: 30px;
+}
+.algo1 {
+  margin-left: 255px;
+  width: 140px;
+  height: 40px;
+}
+.algo2 {
+  margin-left: 255px;
+  width: 185px;
+}
 .hasil_tes {
   font-size: 25px;
   color: #15d3fd;
@@ -133,15 +175,15 @@ export default {
 }
 .garis {
   background-color: #15d3fd;
-  top: 490px;
+  top: 550px;
   height: 2px;
   width: 700px;
   position: absolute;
 }
 .namafile {
-  margin-top: 100px;
-  margin-left: 175px;
+  margin-top: 10px;
   position: absolute;
+  margin-left: 300px;
 }
 .judul {
   font-size: 25px;
@@ -176,7 +218,7 @@ select {
   font-size: 20px;
   left: 960px;
   top: 480px;
-  margin-top: 100px;
+  margin-top: 40px;
 }
 .submitbtn:hover {
   background-color: RoyalBlue;
@@ -204,7 +246,7 @@ select {
   padding: 16px;
   margin: auto;
   width: 700px;
-  height: 650px;
+  height: 730px;
   border-radius: 14px;
   border: 1px solid #15d3fd;
 }
@@ -229,5 +271,61 @@ input[type='file'] {
 }
 .box2 {
   margin-left: 10px;
+}
+
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 18px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.btnRadio {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+.container:hover input ~ .btnRadio {
+  background-color: #ccc;
+}
+
+.container input:checked ~ .btnRadio {
+  background-color: #2196f3;
+}
+
+.btnRadio:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+
+.container input:checked ~ .btnRadio:after {
+  display: block;
+}
+
+.container .btnRadio:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
 }
 </style>
