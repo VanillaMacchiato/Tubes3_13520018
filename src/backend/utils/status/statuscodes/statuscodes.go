@@ -20,15 +20,15 @@ const (
 )
 
 var text = map[string]string{
-	InvalidDNA:       "DNA sequence contains illegal characters",
-	InvalidAlgorithm: "The specified algorithm invalid. Algorithms available: KMP, BoyerMoore, or Levenshtein. ",
-	DiseaseExists:    "Disease name already exists",
-	DiseaseNotExits:  "DNA information from the disease requested is not yet available",
-	PatientNameEmpty: "Patient name empty",
-	DiseaseEmpty:     "Disease name empty",
-	FileError:        "An error occured while reading the file",
-	ServerError:      "The server encountered an error",
-	WrongSearchQuery: "Wrong search query",
+	InvalidDNA:       "Sekuens DNA mengandung karakter yang tidak valid",
+	InvalidAlgorithm: "Algoritma yang dimasukkan tidak valid. Algoritma yang tersedia: KMP/BoyerMoore",
+	DiseaseExists:    "Nama penyakit sudah ada ada pada database",
+	DiseaseNotExits:  "Informasi DNA dari penyakit ini belum tersedia pada database",
+	PatientNameEmpty: "Input nama pasien kosong",
+	DiseaseEmpty:     "Input nama penyakit kosong",
+	FileError:        "Kesalahan saat membaca file",
+	ServerError:      "Terjadi kesalahan pada server",
+	WrongSearchQuery: "Query yang dimasukkan salah",
 }
 
 func Text(code string) string {
