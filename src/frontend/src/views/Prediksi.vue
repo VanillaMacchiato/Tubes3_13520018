@@ -100,6 +100,7 @@ export default {
       this.textberhasil = ''
     },
     onSubmit() {
+      this.textberhasil = ''
       this.selesai = false
       let formData = new FormData()
       formData.append('file', this.textfile)

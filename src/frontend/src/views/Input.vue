@@ -34,6 +34,10 @@
       </button>
       <p>{{ textberhasil }}</p>
     </div>
+    <div class="box4" v-if="!selesai">
+      <img id="loading" alt="img loading" src="../assets/loading.gif" />
+      <p class="textloading">Sedang Ditambahkan...</p>
+    </div>
   </div>
 </template>
 
@@ -46,7 +50,8 @@ export default {
       namafile: '',
       nama: '',
       textfile: '',
-      textberhasil: ''
+      textberhasil: '',
+      selesai: true
     }
   },
   methods: {
@@ -57,6 +62,8 @@ export default {
       this.textberhasil = ''
     },
     onSubmit() {
+      this.selesai = false
+      this.textberhasil = ''
       let formData = new FormData()
       formData.append('disease-name', this.nama)
       formData.append('file', this.textfile)
@@ -71,10 +78,12 @@ export default {
         .then((data) => {
           console.log(data)
           this.textberhasil = 'Berhasil ditambahkan!'
+          this.selesai = true
         })
         .catch((e) => {
           console.log(e)
           this.textberhasil = 'Gagal ditambahkan!'
+          this.selesai = true
         })
     }
   }
@@ -82,6 +91,19 @@ export default {
 </script>
 
 <style scoped>
+.textloading {
+  font-size: 25px;
+  color: #15d3fd;
+  font-weight: bold;
+  background-color: white;
+  width: 280px;
+  margin-left: 400pt;
+}
+
+#loading {
+  width: 250px;
+}
+
 .sequence {
   font-size: 15px;
   font-weight: bold;
