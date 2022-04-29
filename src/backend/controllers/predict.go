@@ -65,7 +65,7 @@ func PredictPatientController() gin.HandlerFunc {
 		var diseaseDetail models.Disease
 		err = diseasesCollection.FindOne(ctx, bson.M{"name": diseasePrediction}).Decode(&diseaseDetail)
 		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"status": status.Error, "code": statuscodes.DiseaseNotExits, "message": statuscodes.Text(statuscodes.Text(statuscodes.DiseaseNotExits))})
+			c.JSON(http.StatusBadRequest, gin.H{"status": status.Error, "code": statuscodes.DiseaseNotExists, "message": statuscodes.Text(statuscodes.DiseaseNotExists)})
 			return
 		}
 
