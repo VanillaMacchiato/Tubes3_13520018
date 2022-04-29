@@ -185,7 +185,7 @@ export default {
 }
 .garis {
   background-color: #15d3fd;
-  top: 550px;
+  top: 570px;
   height: 2px;
   width: 700px;
   position: absolute;
