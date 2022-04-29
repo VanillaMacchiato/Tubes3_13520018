@@ -31,8 +31,8 @@ func main() {
 	v1Group := router.Group("/api/v1")
 	{
 		v1.AddDiseaseRoute(v1Group)
-		v1.PredictPatience(v1Group)
-		v1.GetResult(v1Group)
+		v1.PredictPatientRoute(v1Group)
+		v1.GetResultRoute(v1Group)
 	}
 
 	router.Use(cors.Default())

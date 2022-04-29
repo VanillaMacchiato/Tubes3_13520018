@@ -6,6 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func GetResult(router *gin.RouterGroup) {
+func GetResultRoute(router *gin.RouterGroup) {
 	router.GET("/result", controllers.GetResultController())
 }

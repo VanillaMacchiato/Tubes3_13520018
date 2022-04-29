@@ -104,6 +104,7 @@ export default {
       formData.append('file', this.textfile)
       formData.append('name', this.namapengguna)
       formData.append('disease', this.namapenyakit)
+
       if (this.radiobtn == 'bm') {
         formData.append('algorithm', 'BoyerMoore')
       } else {
