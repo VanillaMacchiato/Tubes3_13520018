@@ -2,6 +2,7 @@
   <div class="home">
     <img alt="logo aplikasi" src="../assets/logo.png" />
     <div class="perkenalan">
+      <p>{{ pingText }}</p>
       <h1 id="h1">Selamat datang di Aplikasi DNA At Work!</h1>
       <p id="p0">Aplikasi ini terdiri dari beberapa fitur yaitu:</p>
       <p id="p1">1. Menerima input penyakit baru</p>
@@ -18,7 +19,31 @@
 <script>
 export default {
   name: 'Home',
-  components: {}
+  components: {},
+  data() {
+    return {
+      pingText: 'Menghubungi server...'
+    }
+  },
+  methods: {
+    pingServer() {
+      fetch('http://dna-at-work-backend.herokuapp.com/')
+        .then((result) => result.json())
+        .then((data) => {
+          if (data === 'DNA at Work! Backend') {
+            this.pingText = 'Berhasil terhubung ke server'
+          } else {
+            this.pingText = 'Server sedang tidak tersedia'
+          }
+        })
+        .catch(() => {
+          this.pingText = 'Server sedang tidak tersedia'
+        })
+    }
+  },
+  beforeMount() {
+    this.pingServer()
+  }
 }
 </script>
 

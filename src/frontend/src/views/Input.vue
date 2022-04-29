@@ -31,6 +31,7 @@
       <button @click="onSubmit" class="submitbtn">
         <i class="fa fa-paper-plane"></i>
         Submit
+        <!-- <i class="fas fa-circle-notch fa-spin"></i> -->
       </button>
       <p>{{ textberhasil }}</p>
     </div>
@@ -76,12 +77,18 @@ export default {
           return res.json()
         })
         .then((data) => {
-          console.log(data)
-          this.textberhasil = 'Berhasil ditambahkan!'
           this.selesai = true
+          if (data.code === 'DNA_INSERTION_SUCCESS') {
+            this.textberhasil = 'Berhasil ditambahkan!'
+          } else {
+            this.textberhasil = 'Gagal ditambahkan!'
+            alert(
+              `Penambahan DNA gagal\nKode: ${data.code}\nPesan: ${data.message}`
+            )
+          }
         })
         .catch((e) => {
-          console.log(e)
+          alert(e.message)
           this.textberhasil = 'Gagal ditambahkan!'
           this.selesai = true
         })

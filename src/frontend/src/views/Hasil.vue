@@ -3,6 +3,7 @@
     <img alt="text hasil prediksi" src="../assets/hasil_prediksi.png" />
     <div class="card">
       <p class="judul">Cari Hasil Prediksi</p>
+      <p class="example">Format: YYYY-MM-DD [spasi] nama penyakit</p>
       <div class="box1">
         <label for="fname" class="label1"></label>
         <input
@@ -10,7 +11,7 @@
           id="fname"
           v-model="inputUser"
           name="namapenyakit"
-          placeholder="<tanggal_prediksi><spasi><nama_penyakit>"
+          placeholder="Contoh: 2022-04-29 Influenza"
         />
       </div>
       <button @click="onSubmit" class="searchbtn">
@@ -69,19 +70,29 @@ export default {
         })
         .then((data) => {
           console.log(data)
-          for (let i = 0; i < data.data.length; i++) {
-            let entry = {
-              tanggal: data.data[i].Date.slice(0, 10),
-              nama: data.data[i].PatientName,
-              penyakit: data.data[i].DiseaseName,
-              terkena: data.data[i].HasDisease.toString().toUpperCase(),
-              kemiripan: data.data[i].Likeness
+          if (data.code === 'GET_RESULT_SUCCESS') {
+            if (data.data) {
+              for (let i = 0; i < data.data.length; i++) {
+                let entry = {
+                  tanggal: data.data[i].Date.slice(0, 10),
+                  nama: data.data[i].PatientName,
+                  penyakit: data.data[i].DiseaseName,
+                  terkena: data.data[i].HasDisease.toString().toUpperCase(),
+                  kemiripan: Math.round(data.data[i].Likeness)
+                }
+                this.hasil.push(entry)
+              }
+              this.textberhasil = 'Berhasil ditemukan!'
+              this.berhasil = true
+            } else {
+              this.textberhasil = 'Hasil tidak ditemukan!'
+              this.berhasil = false
             }
-            this.hasil.push(entry)
+          } else {
+            alert(
+              `Pencarian gagal\n\nKode: ${data.code}\nPesan: ${data.message}`
+            )
           }
-          this.berhasil = true
-          this.textberhasil = 'Berhasil ditemukan!'
-          this.nama = this.inputUser
           this.selesai = true
         })
         .catch((e) => {
@@ -159,7 +170,7 @@ select {
   padding: 16px;
   margin: auto;
   width: 500px;
-  height: 250px;
+  height: 280px;
   border-radius: 14px;
   border: 1px solid #15d3fd;
 }
@@ -181,5 +192,8 @@ select {
 }
 .card1:hover {
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+}
+.example {
+  width: 500px;
 }
 </style>

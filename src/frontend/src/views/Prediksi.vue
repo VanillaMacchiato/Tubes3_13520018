@@ -111,26 +111,36 @@ export default {
       } else {
         formData.append('algorithm', 'KMP')
       }
-      fetch('https://dna-at-work-backend.herokuapp.com/api/v1/predict-patience', {
-        method: 'POST',
-        body: formData
-      })
+      fetch(
+        'https://dna-at-work-backend.herokuapp.com/api/v1/predict-patience',
+        {
+          method: 'POST',
+          body: formData
+        }
+      )
         .then((res) => {
           return res.json()
         })
         .then((data) => {
           console.log(data)
-          this.hasil =
-            data.data.patientName +
-            ' - ' +
-            data.data.diseaseName +
-            ' - ' +
-            data.data.hasDisease.toString().toUpperCase() +
-            ' - ' +
-            data.data.likeness +
-            '%'
-          this.berhasil = true
-          this.textberhasil = 'Proses Selesai!'
+
+          if (data.code === 'DISEASE_PREDICTION_SUCCESS') {
+            this.hasil =
+              data.data.patientName +
+              ' - ' +
+              data.data.diseaseName +
+              ' - ' +
+              data.data.hasDisease.toString().toUpperCase() +
+              ' - ' +
+              data.data.likeness +
+              '%'
+            this.berhasil = true
+            this.textberhasil = 'Proses Selesai!'
+          } else {
+            alert(
+              `Prediksi pasien gagal\n\nKode: ${data.code}\nPesan: ${data.message}`
+            )
+          }
           this.selesai = true
         })
         .catch((e) => {

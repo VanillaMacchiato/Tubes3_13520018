@@ -22,7 +22,7 @@ const (
 var text = map[string]string{
 	InvalidDNA:       "Sekuens DNA mengandung karakter yang tidak valid",
 	InvalidAlgorithm: "Algoritma yang dimasukkan tidak valid. Algoritma yang tersedia: KMP/BoyerMoore",
-	DiseaseExists:    "Nama penyakit sudah ada ada pada database",
+	DiseaseExists:    "Nama penyakit sudah ada pada database",
 	DiseaseNotExits:  "Informasi DNA dari penyakit ini belum tersedia pada database",
 	PatientNameEmpty: "Input nama pasien kosong",
 	DiseaseEmpty:     "Input nama penyakit kosong",
