@@ -103,6 +103,10 @@ export default {
 #loading {
   width: 250px;
 }
+.box4 {
+  margin: auto;
+  width: 300px;
+}
 
 .sequence {
   font-size: 15px;
