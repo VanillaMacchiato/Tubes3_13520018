@@ -6,6 +6,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func PredictPatience(router *gin.RouterGroup) {
+func PredictPatientRoute(router *gin.RouterGroup) {
 	router.POST("/predict-patience", controllers.PredictPatientController())
 }
