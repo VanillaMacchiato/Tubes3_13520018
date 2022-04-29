@@ -15,7 +15,7 @@ func SanitizeInput(input string) (string, string, error) {
 	regex, err := regexp.Compile(`(\b[0-9]{4}-[0-9]{2}-[0-9]{2}\b)|(\b[0-9]{2}-[0-9]{2}-[0-9]{4}\b)`)
 	if err != nil {
 		fmt.Printf("Regular expression error: %s", err.Error())
-		return "", "", errors.New("Regular expression error")
+		return "", "", errors.New("Err: Regular Expression")
 	}
 
 	dateRegex := regex.FindAllString(trueInput, -1)
@@ -31,6 +31,8 @@ func SanitizeInput(input string) (string, string, error) {
 			date = date[6:10] + "-" + date[3:5] + "-" + date[0:2]
 		}
 		trueInput = regex.ReplaceAllString(trueInput, "")
+	} else if len(dateRegex) > 1 {
+		return "", "", errors.New("Terdapat lebih dari 1 tanggal pada input")
 	} else {
 		fmt.Printf("Invalid date format, has %d date inputs", len(dateRegex))
 	}
@@ -44,6 +46,8 @@ func SanitizeInput(input string) (string, string, error) {
 	diseaseRegex := regex.FindAllString(trueInput, -1)
 	if len(diseaseRegex) == 1 {
 		disease = diseaseRegex[0]
+	} else if len(diseaseRegex) > 1 {
+		return "", "", errors.New("Terdapat lebih dari 1 penyakit pada input")
 	} else {
 		fmt.Printf("Invalid disease format, has %d disease inputs", len(dateRegex))
 	}
