@@ -61,7 +61,7 @@ export default {
       this.hasil = []
       this.textberhasil = ''
       this.url =
-        'https://dna-at-work-backend.herokuapp.com/api/v1/result' +
+        'http://localhost:8081/api/v1/result' +
         '?input=' +
         this.inputUser.replaceAll(' ', '%20')
       fetch(this.url)

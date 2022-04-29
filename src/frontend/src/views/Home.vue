@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     pingServer() {
-      fetch('https://dna-at-work-backend.herokuapp.com/')
+      fetch('http://localhost:8081/')
         .then((result) => result.json())
         .then((data) => {
           if (data === 'DNA at Work! Backend') {

@@ -1,5 +1,5 @@
 module.exports = {
     devServer: {
-        proxy: 'https://dna-at-work-backend.herokuapp.com/'
+        proxy: 'http://localhost:8080/'
     }
 }

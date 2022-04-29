@@ -111,13 +111,10 @@ export default {
       } else {
         formData.append('algorithm', 'KMP')
       }
-      fetch(
-        'https://dna-at-work-backend.herokuapp.com/api/v1/predict-patience',
-        {
-          method: 'POST',
-          body: formData
-        }
-      )
+      fetch('http://localhost:8081/api/v1/predict-patience', {
+        method: 'POST',
+        body: formData
+      })
         .then((res) => {
           return res.json()
         })
