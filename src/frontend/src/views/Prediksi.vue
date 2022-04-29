@@ -132,7 +132,7 @@ export default {
               ' - ' +
               data.data.hasDisease.toString().toUpperCase() +
               ' - ' +
-              data.data.likeness +
+              Math.round(data.data.likeness) +
               '%'
             this.berhasil = true
             this.textberhasil = 'Proses Selesai!'
