@@ -104,15 +104,19 @@ export default {
       formData.append('file', this.textfile)
       formData.append('name', this.namapengguna)
       formData.append('disease', this.namapenyakit)
+
       if (this.radiobtn == 'bm') {
         formData.append('algorithm', 'BoyerMoore')
       } else {
         formData.append('algorithm', 'KMP')
       }
-      fetch('http://localhost:8080/api/v1/predict-patience', {
-        method: 'POST',
-        body: formData
-      })
+      fetch(
+        'https://dna-at-work-backend.herokuapp.com/api/v1/predict-patience',
+        {
+          method: 'POST',
+          body: formData
+        }
+      )
         .then((res) => {
           return res.json()
         })
