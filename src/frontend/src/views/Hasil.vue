@@ -17,7 +17,7 @@
         <i class="fa fa-search"></i>
         Cari
       </button>
-      <p v-if="berhasil">{{ textberhasil }}</p>
+      <p>{{ textberhasil }}</p>
     </div>
     <div class="box2">
       <div class="mencari" v-if="!selesai">
@@ -58,7 +58,7 @@ export default {
       this.berhasil = false
       this.selesai = false
       this.hasil = []
-
+      this.textberhasil = ''
       this.url =
         'https://dna-at-work-backend.herokuapp.com/api/v1/result' +
         '?input=' +
@@ -81,12 +81,14 @@ export default {
           }
           this.berhasil = true
           this.textberhasil = 'Berhasil ditemukan!'
+          this.nama = this.inputUser
+          this.selesai = true
         })
         .catch((e) => {
           console.log(e)
           this.textberhasil = 'Hasil tidak ditemukan!'
+          this.selesai = true
         })
-      this.selesai = true
     }
   }
 }

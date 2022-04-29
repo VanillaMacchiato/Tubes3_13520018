@@ -62,7 +62,7 @@
         <i class="fa fa-paper-plane"></i>
         Submit
       </button>
-      <p v-if="berhasil">{{ textberhasil }}</p>
+      <p>{{ textberhasil }}</p>
       <div class="garis"></div>
       <div class="box4" v-if="!selesai">
         <img id="loading" alt="img loading" src="../assets/loading_fast.gif" />
@@ -97,6 +97,7 @@ export default {
       this.namafile = fileData.name
       this.textfile = fileData
       this.berhasil = false
+      this.textberhasil = ''
     },
     onSubmit() {
       this.selesai = false
@@ -104,19 +105,15 @@ export default {
       formData.append('file', this.textfile)
       formData.append('name', this.namapengguna)
       formData.append('disease', this.namapenyakit)
-
       if (this.radiobtn == 'bm') {
         formData.append('algorithm', 'BoyerMoore')
       } else {
         formData.append('algorithm', 'KMP')
       }
-      fetch(
-        'https://dna-at-work-backend.herokuapp.com/api/v1/predict-patience',
-        {
-          method: 'POST',
-          body: formData
-        }
-      )
+      fetch('https://dna-at-work-backend.herokuapp.com/api/v1/predict-patience', {
+        method: 'POST',
+        body: formData
+      })
         .then((res) => {
           return res.json()
         })
@@ -133,12 +130,13 @@ export default {
             '%'
           this.berhasil = true
           this.textberhasil = 'Proses Selesai!'
+          this.selesai = true
         })
         .catch((e) => {
           console.log(e)
           this.textberhasil = 'Proses Gagal!'
+          this.selesai = true
         })
-      this.selesai = true
     }
   }
 }

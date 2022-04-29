@@ -61,7 +61,6 @@ export default {
       formData.append('disease-name', this.nama)
       formData.append('file', this.textfile)
 
-
       fetch('https://dna-at-work-backend.herokuapp.com/api/v1/add-disease', {
         method: 'POST',
         body: formData
