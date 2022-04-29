@@ -4,13 +4,13 @@
     <div class="card">
       <p class="judul">Tes DNA</p>
       <div class="box1">
-        <label for="fname" class="label1">Nama Pengguna:</label>
+        <label for="fname" class="label1">Nama Pasien:</label>
         <input
           type="text"
           id="fname"
-          v-model="namapengguna"
-          name="namapengguna"
-          placeholder="Pengguna..."
+          v-model="namapasien"
+          name="namapasien"
+          placeholder="Pasien..."
         />
       </div>
       <div class="box2">
@@ -82,7 +82,7 @@ export default {
     return {
       namafile: '',
       namapenyakit: '',
-      namapengguna: '',
+      namapasien: '',
       textfile: '',
       textberhasil: '',
       berhasil: false,
@@ -104,7 +104,7 @@ export default {
       this.selesai = false
       let formData = new FormData()
       formData.append('file', this.textfile)
-      formData.append('name', this.namapengguna)
+      formData.append('name', this.namapasien)
       formData.append('disease', this.namapenyakit)
       if (this.radiobtn == 'bm') {
         formData.append('algorithm', 'BoyerMoore')
@@ -191,9 +191,9 @@ export default {
   position: absolute;
 }
 .namafile {
-  margin-top: 10px;
+  margin-top: 20px;
   position: absolute;
-  margin-left: 300px;
+  margin-left: 276px;
 }
 .judul {
   font-size: 25px;
