@@ -33,8 +33,6 @@ func SanitizeInput(input string) (string, string, error) {
 		trueInput = regex.ReplaceAllString(trueInput, "")
 	} else if len(dateRegex) > 1 {
 		return "", "", errors.New("Terdapat lebih dari 1 tanggal pada input")
-	} else {
-		fmt.Printf("Invalid date format, has %d date inputs", len(dateRegex))
 	}
 
 	regex, err = regexp.Compile(`(\b[\S]+\b)`)
@@ -48,8 +46,6 @@ func SanitizeInput(input string) (string, string, error) {
 		disease = diseaseRegex[0]
 	} else if len(diseaseRegex) > 1 {
 		return "", "", errors.New("Terdapat lebih dari 1 penyakit pada input")
-	} else {
-		fmt.Printf("Invalid disease format, has %d disease inputs", len(dateRegex))
 	}
 
 	return date, disease, nil
