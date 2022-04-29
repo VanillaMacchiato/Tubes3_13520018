@@ -5,11 +5,12 @@ import (
 	v1 "backend/routes/v1"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/joho/godotenv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/cors"
+	"github.com/gin-gonic/gin"
 )
 
 func init() {
@@ -26,7 +27,10 @@ func main() {
 	db.Connect()
 
 	// ping
-	router.GET("/", func(ctx *gin.Context) {ctx.JSON(http.StatusOK, "DNA at Work! Backend")})
+	router.GET("/", func(ctx *gin.Context) {
+		ctx.Header("Access-Control-Allow-Origin", os.Getenv("FE_URL"))
+		ctx.JSON(http.StatusOK, "DNA at Work! Backend")
+	})
 
 	v1Group := router.Group("/api/v1")
 	{
