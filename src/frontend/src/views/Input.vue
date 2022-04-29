@@ -104,7 +104,6 @@ export default {
   font-weight: bold;
   background-color: white;
   width: 280px;
-  margin-left: 400pt;
 }
 
 #loading {
